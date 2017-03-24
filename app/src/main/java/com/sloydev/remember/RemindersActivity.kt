@@ -25,22 +25,22 @@ class RemindersActivity : AppCompatActivity() {
         remindersRepository.getEvents()
                 .forEach {
                     when (it) {
-                        is DateEvent -> showDateEventInView(it)
+                        is TemporalEvent -> showDateEventInView(it)
                     }
                 }
     }
 
-    private fun showDateEventInView(dateEvent: DateEvent) {
+    private fun showDateEventInView(temporalEvent: TemporalEvent) {
         val now = LocalDate.now()
-        val datePassed = Period.between(dateEvent.date, now)
+        val datePassed = Period.between(temporalEvent.date, now)
 
         val reminderView = LayoutInflater.from(this).inflate(R.layout.item_reminder, remindersContainer, false)
         val nameView = reminderView.findViewById(R.id.item_reminder_name) as TextView
         val dateView: TextView = reminderView.findViewById(R.id.item_reminder_date) as TextView
         val datePassedView: TextView = reminderView.findViewById(R.id.item_reminder_date_passed) as TextView
 
-        nameView.text = dateEvent.name
-        dateView.text = dateEvent.getDisplayDate()
+        nameView.text = temporalEvent.name
+        dateView.text = temporalEvent.getDisplayDate()
         datePassedView.text = "${datePassed.years} years, ${datePassed.months} months, ${datePassed.days} days"
 
         remindersContainer.addView(reminderView)

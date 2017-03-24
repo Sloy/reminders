@@ -4,12 +4,12 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.Month
 
 interface RemindersRepository {
-    fun getEvents(): List<DateEvent>
+    fun getEvents(): List<TemporalEvent>
 }
 
 class StubRemindersRepository : RemindersRepository {
 
-    override fun getEvents(): List<DateEvent> {
+    override fun getEvents(): List<TemporalEvent> {
         return listOf(
                 DateEvent(name = "Birthday", date = LocalDate.of(1992, Month.JANUARY, 3)),
                 DateEvent(name = "Barcelona", date = LocalDate.of(2014, Month.JUNE, 20)),

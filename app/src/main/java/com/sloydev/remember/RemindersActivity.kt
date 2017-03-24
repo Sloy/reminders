@@ -23,10 +23,14 @@ class RemindersActivity : AppCompatActivity() {
 
     private fun printEvents() {
         remindersRepository.getEvents()
-                .forEach { showInView(it) }
+                .forEach {
+                    when (it) {
+                        is DateEvent -> showDateEventInView(it)
+                    }
+                }
     }
 
-    private fun showInView(dateEvent: DateEvent) {
+    private fun showDateEventInView(dateEvent: DateEvent) {
         val now = LocalDate.now()
         val datePassed = Period.between(dateEvent.date, now)
 

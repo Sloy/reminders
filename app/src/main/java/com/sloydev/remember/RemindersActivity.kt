@@ -40,7 +40,7 @@ class RemindersActivity : AppCompatActivity() {
         val datePassedView: TextView = reminderView.findViewById(R.id.item_reminder_date_passed) as TextView
 
         nameView.text = temporalEvent.name
-        dateView.text = temporalEvent.getDisplayDate()
+        dateView.text = temporalEvent.getDisplayDateTime()
         datePassedView.text = "${datePassed.years} years, ${datePassed.months} months, ${datePassed.days} days"
 
         remindersContainer.addView(reminderView)

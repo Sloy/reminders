@@ -18,4 +18,12 @@ public class RemindersActivityTest {
     assertDisplayed("Birthday");
     assertDisplayed("1992-01-03");
   }
+
+  @Test
+  public void activity_shows_barcelona() throws Exception {
+    activityRule.launchActivity(null);
+
+    assertDisplayed("Barcelona");
+    assertDisplayed("2014-06-20 10:10");
+  }
 }

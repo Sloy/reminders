@@ -9,4 +9,17 @@ data class TemporalEvent(val name: String, val date: LocalDate, val time: LocalT
 
     fun getDisplayTime() = time?.toString()
 
+    fun getDisplayDateTime(): String {
+        time?.let {
+            return "${getDisplayDate()} ${getDisplayTime()}"
+        } ?: return getDisplayDate()
+    }
+
+    fun getDisplayDateTimeJava(): String {
+        if (time == null) {
+            return getDisplayDate();
+        } else {
+            return String.format("%s %s", getDisplayDate(), getDisplayTime());
+        }
+    }
 }

@@ -19,7 +19,7 @@ class StubRemindersRepository : RemindersRepository {
     }
 }
 
-fun main(args : Array<String>) {
+fun main(args: Array<String>) {
     val temporalEvent = StubRemindersRepository().getEvents()[1]
     print(temporalEvent.getDisplayTime())
 }

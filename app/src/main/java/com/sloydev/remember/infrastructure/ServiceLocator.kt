@@ -1,4 +1,9 @@
-package com.sloydev.remember
+package com.sloydev.remember.infrastructure
+
+import com.sloydev.remember.data.RemindersRepository
+import com.sloydev.remember.data.StubRemindersRepository
+import com.sloydev.remember.infrastructure.SystemTimeMachine
+import com.sloydev.remember.infrastructure.TimeMachine
 
 
 object ServiceLocator {

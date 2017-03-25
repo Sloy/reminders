@@ -1,6 +1,10 @@
-package com.sloydev.remember;
+package com.sloydev.remember.ui;
 
 import android.support.test.rule.ActivityTestRule;
+import com.sloydev.remember.data.RemindersRepository;
+import com.sloydev.remember.infrastructure.ServiceLocator;
+import com.sloydev.remember.domain.TemporalEvent;
+import com.sloydev.remember.infrastructure.TimeMachine;
 import java.util.List;
 import kotlin.jvm.functions.Function0;
 import org.jetbrains.annotations.NotNull;

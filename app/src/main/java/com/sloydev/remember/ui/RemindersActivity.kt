@@ -1,4 +1,4 @@
-package com.sloydev.remember
+package com.sloydev.remember.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,6 +6,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import com.sloydev.remember.*
+import com.sloydev.remember.data.RemindersRepository
+import com.sloydev.remember.domain.TemporalEvent
+import com.sloydev.remember.infrastructure.ServiceLocator
+import com.sloydev.remember.infrastructure.TimeMachine
 import kotlinx.android.synthetic.main.activity_reminders.*
 
 class RemindersActivity : AppCompatActivity() {

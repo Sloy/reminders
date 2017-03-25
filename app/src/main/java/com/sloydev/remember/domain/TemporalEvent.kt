@@ -1,4 +1,4 @@
-package com.sloydev.remember
+package com.sloydev.remember.domain
 
 import org.threeten.bp.*
 

@@ -1,5 +1,6 @@
-package com.sloydev.remember
+package com.sloydev.remember.data
 
+import com.sloydev.remember.domain.TemporalEvent
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.Month

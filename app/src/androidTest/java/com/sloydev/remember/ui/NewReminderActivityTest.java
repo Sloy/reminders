@@ -7,14 +7,12 @@ import com.sloydev.remember.domain.ReminderRepository;
 import com.sloydev.remember.infrastructure.ServiceLocator;
 import kotlin.jvm.functions.Function0;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.Month;
 
 import static com.schibsted.spain.barista.BaristaAssertions.assertDisplayed;
-import static com.schibsted.spain.barista.BaristaAssertions.assertNotDisplayed;
 import static com.schibsted.spain.barista.BaristaClickActions.click;
 import static com.schibsted.spain.barista.BaristaEditTextActions.writeToEditText;
 import static org.mockito.Mockito.mock;
@@ -78,15 +76,5 @@ public class NewReminderActivityTest {
 
     Reminder expectedReminder = new Reminder(REMINDER_NAME, VALID_DATE_PARSED, null);
     verify(reminderRepository).addReminder(expectedReminder);
-  }
-
-  @Test
-  @Ignore
-  public void activity_closes_after_save() throws Exception {
-    activityRule.launchActivity(null);
-
-    click(R.id.addReminderSaveButton);
-
-    assertNotDisplayed(R.id.activity_new_reminder);
   }
 }

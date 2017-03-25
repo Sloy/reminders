@@ -16,26 +16,26 @@
       >
 
     <TextView
-        android:id="@+id/item_reminder_name"
+        android:id="@+id/reminder_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Cumpleaños"
         />
 
     <TextView
-        android:id="@+id/item_reminder_date"
+        android:id="@+id/reminder_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="03/01/1992"
         />
     <TextView
-        android:id="@+id/item_reminder_date_passed"
+        android:id="@+id/reminder_date_passed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="1 year"
         />
     <TextView
-        android:id="@+id/item_reminder_time_passed"
+        android:id="@+id/reminder_time_passed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

@@ -1,6 +1,6 @@
 package com.sloydev.remember.infrastructure
 
-import com.sloydev.remember.data.ReminderRepository
+import com.sloydev.remember.domain.ReminderRepository
 import com.sloydev.remember.data.StubReminderRepository
 import com.sloydev.remember.infrastructure.SystemTimeMachine
 import com.sloydev.remember.infrastructure.TimeMachine

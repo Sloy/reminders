@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.sloydev.remember.*
-import com.sloydev.remember.data.ReminderRepository
+import com.sloydev.remember.domain.ReminderRepository
 import com.sloydev.remember.domain.Reminder
 import com.sloydev.remember.infrastructure.ServiceLocator
 import com.sloydev.remember.infrastructure.TimeMachine

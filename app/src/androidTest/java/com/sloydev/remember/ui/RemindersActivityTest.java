@@ -1,7 +1,7 @@
 package com.sloydev.remember.ui;
 
 import android.support.test.rule.ActivityTestRule;
-import com.sloydev.remember.data.ReminderRepository;
+import com.sloydev.remember.domain.ReminderRepository;
 import com.sloydev.remember.domain.Reminder;
 import com.sloydev.remember.infrastructure.ServiceLocator;
 import com.sloydev.remember.infrastructure.TimeMachine;

@@ -25,11 +25,14 @@ class RemindersActivity : AppCompatActivity() {
         adapter = RemindersAdapter(timeMachine)
         remindersList.adapter = adapter
         remindersList.layoutManager = LinearLayoutManager(this)
-
-        printReminders()
     }
 
-    private fun printReminders() {
+    override fun onResume() {
+        super.onResume()
+        loadReminders()
+    }
+
+    private fun loadReminders() {
         reminderRepository.getReminders().let {
             adapter.updateReminders(it)
         }

@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import com.sloydev.remember.R
+import com.sloydev.remember.domain.Reminder
+import com.sloydev.remember.domain.ReminderRepository
+import com.sloydev.remember.infrastructure.ServiceLocator
 import com.sloydev.remember.infrastructure.Try
+import com.sloydev.remember.infrastructure.textString
 import kotlinx.android.synthetic.main.activity_new_reminder.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -12,12 +16,34 @@ import org.threeten.bp.format.DateTimeFormatter
 
 class NewReminderActivity : AppCompatActivity() {
 
+    lateinit var reminderRepository: ReminderRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_reminder)
-        addReminderSaveButton.setOnClickListener { finish() }
+        addReminderSaveButton.setOnClickListener { createReminder() }
+
+        reminderRepository = ServiceLocator.remindersRepository()
 
         setupDateInputMask()
+    }
+
+    private fun createReminder() {
+        val name = addReminderName.textString
+        val parseDate = parseDate(addReminderDate.textString)
+
+        when {
+            name.isBlank() -> addReminderNameLayout.error = "Mandatory"
+            parseDate.isFailure() -> return
+            else -> {
+                val reminder = Reminder(
+                        name = name,
+                        date = parseDate.get()
+                )
+                reminderRepository.addReminder(reminder)
+                finish()
+            }
+        }
     }
 
     private fun setupDateInputMask() {

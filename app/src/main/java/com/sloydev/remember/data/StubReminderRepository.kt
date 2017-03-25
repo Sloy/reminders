@@ -6,7 +6,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.Month
 
-class StubReminderRepository : ReminderRepository {
+object StubReminderRepository : ReminderRepository {
     val added = ArrayList<Reminder>()
 
     val persisted = listOf(

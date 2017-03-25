@@ -18,6 +18,7 @@
         android:id="@+id/addReminderName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text|textCapSentences"
         android:lines="1"
         android:maxLines="1"
         android:hint="Name"

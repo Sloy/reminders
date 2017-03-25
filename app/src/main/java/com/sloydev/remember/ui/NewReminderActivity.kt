@@ -29,9 +29,12 @@ class NewReminderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_reminder)
-        addReminderSaveButton.setOnClickListener { createReminder() }
-
         reminderRepository = ServiceLocator.remindersRepository()
+
+        addReminderSaveButton.setOnClickListener { createReminder() }
+        addReminderName.addTextChangedListener(TextWatcherAdapter {
+            addReminderNameLayout.isErrorEnabled = false
+        })
 
         setupDateInputMask()
     }

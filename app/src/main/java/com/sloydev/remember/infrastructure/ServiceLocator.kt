@@ -10,7 +10,7 @@ object ServiceLocator {
 
     object Configuration {
         var reminderRepositoryProvider: () -> ReminderRepository = {
-            StubReminderRepository()
+            StubReminderRepository
         }
         var timeMachineProvider: () -> TimeMachine = {
             SystemTimeMachine()

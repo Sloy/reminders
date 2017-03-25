@@ -1,5 +1,7 @@
 package com.sloydev.remember.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -15,6 +17,12 @@ import org.threeten.bp.format.DateTimeFormatter
 
 
 class NewReminderActivity : AppCompatActivity() {
+
+    companion object Factory {
+        fun createIntent(context: Context): Intent {
+            return Intent(context, NewReminderActivity::class.java)
+        }
+    }
 
     lateinit var reminderRepository: ReminderRepository
 

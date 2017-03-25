@@ -6,9 +6,7 @@ import com.sloydev.remember.domain.Reminder;
 import com.sloydev.remember.domain.ReminderRepository;
 import com.sloydev.remember.infrastructure.ServiceLocator;
 import com.sloydev.remember.infrastructure.TimeMachine;
-import java.util.List;
 import kotlin.jvm.functions.Function0;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,8 +16,13 @@ import org.threeten.bp.LocalTime;
 import org.threeten.bp.Month;
 
 import static com.schibsted.spain.barista.BaristaAssertions.assertDisplayed;
+import static com.schibsted.spain.barista.BaristaAssertions.assertNotExist;
 import static com.schibsted.spain.barista.BaristaClickActions.click;
+import static com.schibsted.spain.barista.BaristaClickActions.clickBack;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RemindersActivityTest {
 
@@ -30,28 +33,36 @@ public class RemindersActivityTest {
       .of(2016, Month.FEBRUARY, 24, 9, 51, 41);
 
   private static final Reminder REMINDER_WITH_DATE_TIME = new Reminder("My reminder", LocalDate.from(PASSED), LocalTime.from(PASSED));
+  private static final Reminder FIRST_REMINDER = new Reminder("First reminder", LocalDate.from(PASSED), LocalTime.from(PASSED));
+  private static final Reminder SECOND_REMINDER = new Reminder("Second reminder", LocalDate.from(PASSED), LocalTime.from(PASSED));
+
+  private final ReminderRepository reminderRepository = mock(ReminderRepository.class);
+  private final TimeMachine timeMachine = mock(TimeMachine.class);
 
   @Rule
   public ActivityTestRule<RemindersActivity> activityRule = new ActivityTestRule<>(RemindersActivity.class, true, false);
 
   @Before
   public void setUp() throws Exception {
+    when(timeMachine.now()).thenReturn(NOW);
     ServiceLocator.Configuration.INSTANCE.setReminderRepositoryProvider(new Function0<ReminderRepository>() {
       @Override
       public ReminderRepository invoke() {
-        return new TestReminderRepository();
+        return reminderRepository;
       }
     });
     ServiceLocator.Configuration.INSTANCE.setTimeMachineProvider(new Function0<TimeMachine>() {
       @Override
       public TimeMachine invoke() {
-        return new TestTimeMachine();
+        return timeMachine;
       }
     });
   }
 
   @Test
   public void activity_shows_fake_reminder() throws Exception {
+    when(reminderRepository.getReminders()).thenReturn(singletonList(REMINDER_WITH_DATE_TIME));
+
     activityRule.launchActivity(null);
 
     assertDisplayed("My reminder");
@@ -69,24 +80,20 @@ public class RemindersActivityTest {
     assertDisplayed(R.id.activity_new_reminder);
   }
 
-  private static class TestReminderRepository implements ReminderRepository {
-    @NotNull
-    @Override
-    public List<Reminder> getReminders() {
-      return singletonList(REMINDER_WITH_DATE_TIME);
-    }
+  @Test
+  public void reloads_list_after_adding_reminder() throws Exception {
+    when(reminderRepository.getReminders()).thenReturn(singletonList(FIRST_REMINDER));
 
-    @Override
-    public void addReminder(@NotNull Reminder reminder) {
-      throw new IllegalStateException("Not implemented on this test");
-    }
-  }
+    activityRule.launchActivity(null);
 
-  private static class TestTimeMachine implements TimeMachine {
-    @NotNull
-    @Override
-    public LocalDateTime now() {
-      return NOW;
-    }
+    assertDisplayed(FIRST_REMINDER.getName());
+    assertNotExist(SECOND_REMINDER.getName());
+
+    click(R.id.remindersAddButton);
+    when(reminderRepository.getReminders()).thenReturn(asList(FIRST_REMINDER, SECOND_REMINDER));
+    clickBack();
+
+    assertDisplayed(FIRST_REMINDER.getName());
+    assertDisplayed(SECOND_REMINDER.getName());
   }
 }

@@ -7,6 +7,7 @@ import com.sloydev.remember.R
 import com.sloydev.remember.domain.ReminderRepository
 import com.sloydev.remember.infrastructure.ServiceLocator
 import com.sloydev.remember.infrastructure.TimeMachine
+import com.sloydev.remember.infrastructure.startActivity
 import kotlinx.android.synthetic.main.activity_reminders.*
 
 class RemindersActivity : AppCompatActivity() {
@@ -25,6 +26,10 @@ class RemindersActivity : AppCompatActivity() {
         adapter = RemindersAdapter(timeMachine)
         remindersList.adapter = adapter
         remindersList.layoutManager = LinearLayoutManager(this)
+        remindersAddButton.setOnClickListener {
+            NewReminderActivity.createIntent(this)
+                    .startActivity(this)
+        }
     }
 
     override fun onResume() {

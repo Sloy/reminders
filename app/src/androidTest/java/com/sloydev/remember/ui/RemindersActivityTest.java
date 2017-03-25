@@ -1,8 +1,9 @@
 package com.sloydev.remember.ui;
 
 import android.support.test.rule.ActivityTestRule;
-import com.sloydev.remember.domain.ReminderRepository;
+import com.sloydev.remember.R;
 import com.sloydev.remember.domain.Reminder;
+import com.sloydev.remember.domain.ReminderRepository;
 import com.sloydev.remember.infrastructure.ServiceLocator;
 import com.sloydev.remember.infrastructure.TimeMachine;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.threeten.bp.LocalTime;
 import org.threeten.bp.Month;
 
 import static com.schibsted.spain.barista.BaristaAssertions.assertDisplayed;
+import static com.schibsted.spain.barista.BaristaClickActions.click;
 import static java.util.Collections.singletonList;
 
 public class RemindersActivityTest {
@@ -58,11 +60,25 @@ public class RemindersActivityTest {
     assertDisplayed("1 hours, 1 minutes, 1 seconds");
   }
 
+  @Test
+  public void fab_click_opens_editor_screen() throws Exception {
+    activityRule.launchActivity(null);
+
+    click(R.id.remindersAddButton);
+
+    assertDisplayed(R.id.activity_new_reminder);
+  }
+
   private static class TestReminderRepository implements ReminderRepository {
     @NotNull
     @Override
     public List<Reminder> getReminders() {
       return singletonList(REMINDER_WITH_DATE_TIME);
+    }
+
+    @Override
+    public void addReminder(@NotNull Reminder reminder) {
+      throw new IllegalStateException("Not implemented on this test");
     }
   }
 

@@ -17,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NewReminderActivity"
+                  android:label="New Reminder"
+                  >
+            <intent-filter>
+                <action android:name="com.sloydev.remember.action.DEBUG_NEW_REMINDER" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

@@ -2,7 +2,7 @@ package com.sloydev.remember.domain
 
 import org.threeten.bp.*
 
-data class TemporalEvent(val name: String, val date: LocalDate, val time: LocalTime? = null) {
+data class Reminder(val name: String, val date: LocalDate, val time: LocalTime? = null) {
 
     fun getDisplayDate() = date.toString()
 

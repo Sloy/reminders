@@ -1,15 +1,14 @@
 package com.sloydev.remember.ui;
 
 import android.support.test.rule.ActivityTestRule;
-import com.sloydev.remember.data.RemindersRepository;
+import com.sloydev.remember.data.ReminderRepository;
+import com.sloydev.remember.domain.Reminder;
 import com.sloydev.remember.infrastructure.ServiceLocator;
-import com.sloydev.remember.domain.TemporalEvent;
 import com.sloydev.remember.infrastructure.TimeMachine;
 import java.util.List;
 import kotlin.jvm.functions.Function0;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.threeten.bp.LocalDate;
@@ -28,17 +27,17 @@ public class RemindersActivityTest {
   private static final LocalDateTime PASSED = LocalDateTime
       .of(2016, Month.FEBRUARY, 24, 9, 51, 41);
 
-  private static final TemporalEvent EVENT_WITH_DATE_TIME = new TemporalEvent("My event", LocalDate.from(PASSED), LocalTime.from(PASSED));
+  private static final Reminder REMINDER_WITH_DATE_TIME = new Reminder("My reminder", LocalDate.from(PASSED), LocalTime.from(PASSED));
 
   @Rule
   public ActivityTestRule<RemindersActivity> activityRule = new ActivityTestRule<>(RemindersActivity.class, true, false);
 
   @Before
   public void setUp() throws Exception {
-    ServiceLocator.Configuration.INSTANCE.setRemindersRepositoryProvider(new Function0<RemindersRepository>() {
+    ServiceLocator.Configuration.INSTANCE.setReminderRepositoryProvider(new Function0<ReminderRepository>() {
       @Override
-      public RemindersRepository invoke() {
-        return new TestRemindersRepository();
+      public ReminderRepository invoke() {
+        return new TestReminderRepository();
       }
     });
     ServiceLocator.Configuration.INSTANCE.setTimeMachineProvider(new Function0<TimeMachine>() {
@@ -50,40 +49,20 @@ public class RemindersActivityTest {
   }
 
   @Test
-  public void activity_shows_fake_event() throws Exception {
+  public void activity_shows_fake_reminder() throws Exception {
     activityRule.launchActivity(null);
 
-    assertDisplayed("My event");
+    assertDisplayed("My reminder");
     assertDisplayed("2016-02-24 09:51:41");
     assertDisplayed("1 years, 1 months, 1 days");
     assertDisplayed("1 hours, 1 minutes, 1 seconds");
   }
 
-  @Test
-  @Ignore
-  public void activity_shows_birthday() throws Exception {
-    activityRule.launchActivity(null);
-
-    assertDisplayed("Birthday");
-    assertDisplayed("1992-01-03");
-    assertDisplayed("25 years, 2 months, 22 days");
-  }
-
-  @Test
-  @Ignore
-  public void activity_shows_barcelona() throws Exception {
-    activityRule.launchActivity(null);
-
-    assertDisplayed("Barcelona");
-    assertDisplayed("2014-06-20 10:10");
-    assertDisplayed("2 years, 9 months, 5 days");
-  }
-
-  private static class TestRemindersRepository implements RemindersRepository {
+  private static class TestReminderRepository implements ReminderRepository {
     @NotNull
     @Override
-    public List<TemporalEvent> getEvents() {
-      return singletonList(EVENT_WITH_DATE_TIME);
+    public List<Reminder> getReminders() {
+      return singletonList(REMINDER_WITH_DATE_TIME);
     }
   }
 

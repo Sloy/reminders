@@ -1,7 +1,7 @@
 package com.sloydev.remember.infrastructure
 
-import com.sloydev.remember.data.RemindersRepository
-import com.sloydev.remember.data.StubRemindersRepository
+import com.sloydev.remember.data.ReminderRepository
+import com.sloydev.remember.data.StubReminderRepository
 import com.sloydev.remember.infrastructure.SystemTimeMachine
 import com.sloydev.remember.infrastructure.TimeMachine
 
@@ -9,8 +9,8 @@ import com.sloydev.remember.infrastructure.TimeMachine
 object ServiceLocator {
 
     object Configuration {
-        var remindersRepositoryProvider: () -> RemindersRepository = {
-            StubRemindersRepository()
+        var reminderRepositoryProvider: () -> ReminderRepository = {
+            StubReminderRepository()
         }
         var timeMachineProvider: () -> TimeMachine = {
             SystemTimeMachine()
@@ -18,7 +18,7 @@ object ServiceLocator {
         }
     }
 
-    fun remindersRepository(): RemindersRepository = Configuration.remindersRepositoryProvider.invoke()
+    fun remindersRepository(): ReminderRepository = Configuration.reminderRepositoryProvider.invoke()
 
     fun timeMachine(): TimeMachine = Configuration.timeMachineProvider.invoke()
 }

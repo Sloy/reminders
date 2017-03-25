@@ -7,36 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.sloydev.remember.*
-import com.sloydev.remember.data.RemindersRepository
-import com.sloydev.remember.domain.TemporalEvent
+import com.sloydev.remember.data.ReminderRepository
+import com.sloydev.remember.domain.Reminder
 import com.sloydev.remember.infrastructure.ServiceLocator
 import com.sloydev.remember.infrastructure.TimeMachine
 import kotlinx.android.synthetic.main.activity_reminders.*
 
 class RemindersActivity : AppCompatActivity() {
 
-    lateinit var remindersRepository: RemindersRepository
+    lateinit var reminderRepository: ReminderRepository
     lateinit var timeMachine: TimeMachine
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reminders)
 
-        remindersRepository = ServiceLocator.remindersRepository()
+        reminderRepository = ServiceLocator.remindersRepository()
         timeMachine = ServiceLocator.timeMachine()
 
-        printEvents()
+        printReminders()
     }
 
-    private fun printEvents() {
-        remindersRepository.getEvents()
+    private fun printReminders() {
+        reminderRepository.getReminders()
                 .forEach {
-                    showEventInView(it)
+                    showReminderInView(it)
                 }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showEventInView(temporalEvent: TemporalEvent) {
+    private fun showReminderInView(reminder: Reminder) {
         val now = timeMachine.now()
 
         val reminderView = LayoutInflater.from(this).inflate(R.layout.item_reminder, remindersContainer, false)
@@ -45,13 +45,13 @@ class RemindersActivity : AppCompatActivity() {
         val datePassedView: TextView = reminderView.findViewById(R.id.item_reminder_date_passed) as TextView
         val timePassedView: TextView = reminderView.findViewById(R.id.item_reminder_time_passed) as TextView
 
-        nameView.text = temporalEvent.name
-        dateView.text = temporalEvent.getDisplayDateTime()
+        nameView.text = reminder.name
+        dateView.text = reminder.getDisplayDateTime()
 
-        val (years, months, days) = temporalEvent.getDatePassed(now)
+        val (years, months, days) = reminder.getDatePassed(now)
         datePassedView.text = "$years years, $months months, $days days"
 
-        val timePassed = temporalEvent.getTimePassed(now)
+        val timePassed = reminder.getTimePassed(now)
         timePassed?.let {
             val (hours, minutes, seconds) = timePassed
             timePassedView.apply {

@@ -9,6 +9,8 @@ import com.sloydev.remember.infrastructure.ServiceLocator
 import com.sloydev.remember.infrastructure.TimeMachine
 import com.sloydev.remember.infrastructure.startActivity
 import kotlinx.android.synthetic.main.activity_reminders.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 class RemindersActivity : AppCompatActivity() {
 
@@ -38,8 +40,9 @@ class RemindersActivity : AppCompatActivity() {
     }
 
     private fun loadReminders() {
-        reminderRepository.getReminders().let {
-            adapter.updateReminders(it)
+        launch(UI) {
+            val reminders = reminderRepository.getReminders()
+            adapter.updateReminders(reminders)
         }
     }
 

@@ -15,7 +15,7 @@ object StubReminderRepository : ReminderRepository {
             Reminder(name = "InfoJobs", date = LocalDate.of(2015, Month.OCTOBER, 19))
     )
 
-    override fun getReminders(): List<Reminder> {
+    suspend override fun getReminders(): List<Reminder> {
         return persisted.plus(added)
     }
 

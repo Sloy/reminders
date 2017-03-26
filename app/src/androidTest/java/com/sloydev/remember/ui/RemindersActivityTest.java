@@ -6,6 +6,8 @@ import com.sloydev.remember.domain.Reminder;
 import com.sloydev.remember.domain.ReminderRepository;
 import com.sloydev.remember.infrastructure.ServiceLocator;
 import com.sloydev.remember.infrastructure.TimeMachine;
+import java.util.Collections;
+import kotlin.coroutines.experimental.Continuation;
 import kotlin.jvm.functions.Function0;
 import org.junit.Before;
 import org.junit.Rule;
@@ -21,6 +23,7 @@ import static com.schibsted.spain.barista.BaristaClickActions.click;
 import static com.schibsted.spain.barista.BaristaClickActions.clickBack;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +47,7 @@ public class RemindersActivityTest {
 
   @Before
   public void setUp() throws Exception {
+    when(reminderRepository.getReminders(any(Continuation.class))).thenReturn(Collections.emptyList());
     when(timeMachine.now()).thenReturn(NOW);
     ServiceLocator.Configuration.INSTANCE.setReminderRepositoryProvider(new Function0<ReminderRepository>() {
       @Override
@@ -61,7 +65,7 @@ public class RemindersActivityTest {
 
   @Test
   public void activity_shows_fake_reminder() throws Exception {
-    when(reminderRepository.getReminders()).thenReturn(singletonList(REMINDER_WITH_DATE_TIME));
+    when(reminderRepository.getReminders(any(Continuation.class))).thenReturn(singletonList(REMINDER_WITH_DATE_TIME));
 
     activityRule.launchActivity(null);
 
@@ -82,7 +86,7 @@ public class RemindersActivityTest {
 
   @Test
   public void reloads_list_after_adding_reminder() throws Exception {
-    when(reminderRepository.getReminders()).thenReturn(singletonList(FIRST_REMINDER));
+    when(reminderRepository.getReminders(any(Continuation.class))).thenReturn(singletonList(FIRST_REMINDER));
 
     activityRule.launchActivity(null);
 
@@ -90,7 +94,7 @@ public class RemindersActivityTest {
     assertNotExist(SECOND_REMINDER.getName());
 
     click(R.id.remindersAddButton);
-    when(reminderRepository.getReminders()).thenReturn(asList(FIRST_REMINDER, SECOND_REMINDER));
+    when(reminderRepository.getReminders(any(Continuation.class))).thenReturn(asList(FIRST_REMINDER, SECOND_REMINDER));
     clickBack();
 
     assertDisplayed(FIRST_REMINDER.getName());
